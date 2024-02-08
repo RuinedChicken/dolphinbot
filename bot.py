@@ -1,8 +1,10 @@
+"""What do you think bot.py does, pylint?!"""
+
 import discord
 from discord.ext import commands
 from bot_commands import setup_commands
 from private import TOKEN
-import json
+
 
 intents = discord.Intents.default()
 intents.message_content = True  # Enable message content intent
@@ -16,7 +18,4 @@ async def on_ready():
 
 setup_commands(bot)
 
-try:
-    bot.run(TOKEN)
-except Exception as e:
-    print(f'Error running the bot: {e}')
+bot.run(TOKEN)

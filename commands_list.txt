@@ -1,2 +1,4 @@
-!grozdan - Гроздан.
+!addquote - Adds a new quote. Ej: !addquote aaa Boris -> "aaa" - Boris.
 !dolphin_help - Provides help. Hopefully.
+!grozdan - Гроздан.
+!quote - !quote number for specific quote, !quote r for random quote.

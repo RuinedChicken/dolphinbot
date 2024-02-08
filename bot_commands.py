@@ -1,6 +1,5 @@
 import json
 import discord
-from discord.ext import commands
 import random
 
 def setup_commands(bot):
@@ -26,24 +25,25 @@ def setup_commands(bot):
 
     @bot.command(name='grozdan')
     async def post_image(ctx):
-            """
-            Гроздан.
-            """
-            image_path = 'images/grozdan.png'  # Update the path and filename to your specific image
-            try:
-                with open(image_path, 'rb') as img:
-                    await ctx.send(file=discord.File(img))
-            except FileNotFoundError:
-                await ctx.send("Image isn't there. Blame Pollo.")
+        """
+        Гроздан.
+        """
+        image_path = 'images/grozdan.png'
+        try:
+            with open(image_path, 'rb') as img:
+                await ctx.send(file=discord.File(img))
+        except FileNotFoundError:
+            await ctx.send("Image isn't there. Blame Pollo.")
 
 
     @bot.command(name='quote')
     async def get_quote(ctx, arg: str):
         """
-        Fetches a quote by its ID from the quotes.json file and posts it, or a random quote if 'r' is passed.
+        Displays a quote. Usage: !quote number for specific quote, !quote r for random quote.
         """
+        # Fetches a quote by its ID from the quotes.json file and posts it, or a random quote if 'r' is passed.
         try:
-            with open('quotes.json', 'r') as file:
+            with open('quotes.json', 'r', encoding="utf-8") as file:
                 quotes = json.load(file)
                 if arg.lower() == 'r':
                     quote = random.choice(quotes)  # Ensure this selects randomly each time
@@ -65,3 +65,42 @@ def setup_commands(bot):
             await ctx.send("The quotes file is missing. Blame Pollo.")  # File missing, blame Pollo
         except json.JSONDecodeError:
             await ctx.send("There's a problem with the quotes file format. Blame Pollo.")  # File format issue, blame Pollo
+
+    @bot.command(name='addquote')
+    async def add_quote(ctx, body: str, author: str, filename='quotes.json'):
+        """
+        Adds a new quote. Usage: !addquote aaa Boris -> "aaa" - Boris.
+        """
+        # Adds a new quote to the JSON file with the next available ID, using UTF-8 encoding.
+        try:
+            # Load existing quotes
+            with open(filename, 'r', encoding='utf-8') as file:
+                quotes = json.load(file)
+            
+            # Determine the next available ID
+            if quotes:  # Check if the list is not empty
+                last_id = quotes[-1]['id']  # Get the ID of the last quote in the list
+                next_id = last_id + 1
+            else:
+                next_id = 1  # Start from ID 1 if the list is empty
+            
+            # Create the new quote
+            new_quote = {
+                'id': next_id,
+                'body': body,
+                'author': author
+            }
+            
+            # Add the new quote to the list
+            quotes.append(new_quote)
+            
+            # Write the updated list back to the file
+            with open(filename, 'w', encoding='utf-8') as file:
+                json.dump(quotes, file, ensure_ascii=False, indent=4)  # Use ensure_ascii=False to write UTF-8 characters directly
+            
+            await ctx.send(f"Quote added successfully with ID {next_id}.")
+        
+        except FileNotFoundError:
+            await ctx.send("The quotes file is missing. Blame Pollo.")
+        except json.JSONDecodeError:
+            await ctx.send("There's a problem with the quotes file format. Blame Pollo.")
