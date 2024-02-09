@@ -1,9 +1,18 @@
+"""Commands for the bot."""
+
+import asyncio
+from discord.ext import commands
+import os
 import json
-import discord
 import random
+import discord
+
+
 
 def setup_commands(bot):
-
+    """
+    Giga function with all commands
+    """
     @bot.command(name='dolphin_help')
     async def custom_help(ctx):
         """
@@ -67,13 +76,24 @@ def setup_commands(bot):
             await ctx.send("There's a problem with the quotes file format. Blame Pollo.")  # File format issue, blame Pollo
 
     @bot.command(name='addquote')
-    async def add_quote(ctx, body: str, author: str, filename='quotes.json'):
+    async def add_quote(ctx, *, text: str):
         """
-        Adds a new quote. Usage: !addquote aaa Boris -> "aaa" - Boris.
+        Adds a new quote. Usage: !addquote "quote text" - Author
         """
-        # Adds a new quote to the JSON file with the next available ID, using UTF-8 encoding.
+        # The filename where quotes are stored, assumed to be in the same directory as the bot script.
+        filename = 'quotes.json'
+
+        # Attempt to split the text into quote and author.
         try:
-            # Load existing quotes
+            body, author = map(str.strip, text.rsplit(" - ", 1))
+        except ValueError:
+            # If splitting fails, send an error message.
+            await ctx.send("Use the format: \"quote text\" - Author")
+            return
+
+        # Continue with adding the quote to the file.
+        try:
+            # Load existing quotes with UTF-8 encoding
             with open(filename, 'r', encoding='utf-8') as file:
                 quotes = json.load(file)
             
@@ -98,9 +118,13 @@ def setup_commands(bot):
             with open(filename, 'w', encoding='utf-8') as file:
                 json.dump(quotes, file, ensure_ascii=False, indent=4)  # Use ensure_ascii=False to write UTF-8 characters directly
             
+            # Send confirmation message
             await ctx.send(f"Quote added successfully with ID {next_id}.")
         
         except FileNotFoundError:
             await ctx.send("The quotes file is missing. Blame Pollo.")
         except json.JSONDecodeError:
             await ctx.send("There's a problem with the quotes file format. Blame Pollo.")
+        except Exception as e:
+            # Handle other unexpected exceptions
+            await ctx.send(f"An unexpected error occurred: {e}")

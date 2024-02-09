@@ -1,4 +1,4 @@
-!addquote - Adds a new quote. Ej: !addquote aaa Boris -> "aaa" - Boris.
+!addquote - Adds a new quote. Usage: !addquote aaa Boris -> "aaa" - Boris.
 !dolphin_help - Provides help. Hopefully.
 !grozdan - Гроздан.
-!quote - !quote number for specific quote, !quote r for random quote.
+!quote - Displays a quote. Usage: !quote number for specific quote, !quote r for random quote.

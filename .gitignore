@@ -2,3 +2,5 @@ images/*
 private.py
 __pycache__
 quotes.json
+soundboard/*
+run_bot.bat
