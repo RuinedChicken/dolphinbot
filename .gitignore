@@ -4,3 +4,4 @@ __pycache__
 quotes.json
 soundboard/*
 run_bot.bat
+ffmpeg/*

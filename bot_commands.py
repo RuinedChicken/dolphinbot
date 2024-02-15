@@ -1,12 +1,9 @@
 """Commands for the bot."""
 
-import asyncio
-from discord.ext import commands
 import os
 import json
 import random
 import discord
-
 
 
 def setup_commands(bot):
@@ -44,7 +41,8 @@ def setup_commands(bot):
         except FileNotFoundError:
             await ctx.send("Image isn't there. Blame Pollo.")
 
-
+    # ---------------------------------------- QUOTES ---------------------------------------- 
+            
     @bot.command(name='quote')
     async def get_quote(ctx, arg: str):
         """
@@ -80,7 +78,7 @@ def setup_commands(bot):
         """
         Adds a new quote. Usage: !addquote "quote text" - Author
         """
-        # The filename where quotes are stored, assumed to be in the same directory as the bot script.
+
         filename = 'quotes.json'
 
         # Attempt to split the text into quote and author.
@@ -128,3 +126,50 @@ def setup_commands(bot):
         except Exception as e:
             # Handle other unexpected exceptions
             await ctx.send(f"An unexpected error occurred: {e}")
+
+    # ---------------------------------------- SOUNDBOARD ---------------------------------------- 
+            
+    @bot.command(name='play')
+    async def play(ctx, sound_clip: str):
+        """Will attempt to join your vc and play a sound clip. Can keep on playing until you tell it to go w !leave"""
+        soundboard_folder = 'soundboard'
+        sound_extensions = ['.mp3', '.wav', '.ogg']  # List of supported audio file extensions
+
+        # Is the user in vc?
+        if ctx.author.voice is None:
+            await ctx.send("Join a voice channel first. If you are in vc, blame Pollo.")
+            return
+
+        # Find the full path with extension
+        sound_clip_path = None
+        for ext in sound_extensions:
+            potential_path = os.path.join(soundboard_folder, sound_clip + ext)
+            if os.path.exists(potential_path):
+                sound_clip_path = potential_path
+                break
+
+        if not sound_clip_path:
+            await ctx.send("Sound clip not found.")
+            return
+
+        voice_client = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+
+        # If the bot is not connected to a voice channel, join vc
+        if not voice_client or not voice_client.is_connected():
+            channel = ctx.author.voice.channel
+            voice_client = await channel.connect()
+
+        # Play the audio if not already playing something
+        if not voice_client.is_playing():
+            voice_client.play(discord.FFmpegPCMAudio(executable='ffmpeg/bin/ffmpeg.exe', source=sound_clip_path))  # Adjust FFmpeg path as needed
+            await ctx.send(f"Now playing: {sound_clip}")
+
+    @bot.command(name='leave')
+    async def leave(ctx):
+        """What do you _think_ it does."""
+        voice_client = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+        if voice_client and voice_client.is_connected():
+            await voice_client.disconnect()
+        else:
+            await ctx.send("Silly Dolphin, I'm not in a voice channel. If I am, blame Pollo.")        
+
