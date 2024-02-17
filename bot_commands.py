@@ -39,10 +39,60 @@ def setup_commands(bot):
             with open(image_path, 'rb') as img:
                 await ctx.send(file=discord.File(img))
         except FileNotFoundError:
-            await ctx.send("Image isn't there. Blame Pollo.")
+            await ctx.send("No Гроздан. Blame Pollo.")
 
     # ---------------------------------------- QUOTES ---------------------------------------- 
             
+    @bot.command(name='quotelist')
+    async def get_quotelist(ctx):
+        """Displays a list of all available quote IDs and missing quote IDs."""
+        try:
+            with open('quotes.json', 'r', encoding="utf-8") as file:
+                quotes = json.load(file)
+                # Extracting quote IDs and sorting them
+                quote_ids = sorted([quote["id"] for quote in quotes])
+
+                if quote_ids:
+                    # Initialize variables
+                    ranges, missing = [], []
+                    start = end = quote_ids[0]
+
+                    # Find ranges of available IDs
+                    for qid in quote_ids[1:]:
+                        if qid == end + 1:
+                            end = qid
+                        else:
+                            ranges.append(f"{start}-{end}")
+                            start = end = qid
+                    
+                    # Add the final range
+                    ranges.append(f"{start}-{end}" if start != end else f"{start}")
+
+                    # Find missing IDs
+                    full_range = set(range(1, quote_ids[-1] + 1))
+                    missing_ids = full_range - set(quote_ids)
+                    for mid in sorted(missing_ids):
+                        if not missing or mid != missing[-1][-1] + 1:
+                            missing.append([mid])
+                        else:
+                            missing[-1].append(mid)
+
+                    # Format missing ranges
+                    missing_ranges = [f"{m[0]}-{m[-1]}" if len(m) > 1 else str(m[0]) for m in missing]
+
+                    # Format the message
+                    message = "Available Quote IDs:\n" + ", ".join(ranges)
+                    if missing_ranges:
+                        message += "\n\nMissing Quote IDs:\n" + ", ".join(missing_ranges)
+                else:
+                    message = "No quotes available."
+        except FileNotFoundError:
+            message = "The quotes file is missing. Blame Pollo."
+        except json.JSONDecodeError:
+            message = "There's a problem with the quotes file format. Blame Pollo."
+
+        await ctx.send(message)
+
     @bot.command(name='quote')
     async def get_quote(ctx, arg: str):
         """
@@ -59,7 +109,7 @@ def setup_commands(bot):
                         quote_id = int(arg)
                         quote = next((q for q in quotes if q['id'] == quote_id), None)
                         if not quote:
-                            await ctx.send("Couldn't find a quote with that ID. Blame Pollo.")  # ID is valid but not found, blame Pollo
+                            await ctx.send("Couldn't find a quote with that ID.")  # ID is valid but not found, blame Pollo
                             return
                     except ValueError:
                         await ctx.send("Provide a valid fucking ID or 'r' for a random quote.")  # User's fault for not providing a valid ID
@@ -76,7 +126,7 @@ def setup_commands(bot):
     @bot.command(name='addquote')
     async def add_quote(ctx, *, text: str):
         """
-        Adds a new quote. Usage: !addquote "quote text" - Author
+        Adds a new quote. Usage: !addquote quote text - Author
         """
 
         filename = 'quotes.json'
@@ -173,3 +223,23 @@ def setup_commands(bot):
         else:
             await ctx.send("Silly Dolphin, I'm not in a voice channel. If I am, blame Pollo.")        
 
+    @bot.command(name='cliplist')
+    async def list_sounds(ctx):
+        """Lists all available sound clips."""
+        soundboard_folder = 'soundboard'
+        sound_extensions = ['.mp3', '.wav', '.ogg']
+        available_sounds = []
+
+        # List all files in the soundboard folder and filter by supported extensions
+        for file in os.listdir(soundboard_folder):
+            if any(file.endswith(ext) for ext in sound_extensions):
+                # Remove the file extension
+                sound_name, _ = os.path.splitext(file)
+                available_sounds.append(sound_name)
+
+        if available_sounds:
+            message = "Available sounds:\n" + "\n".join(available_sounds)
+        else:
+            message = "No sounds found in the soundboard folder. Definitely blame Pollo."
+
+        await ctx.send(message)

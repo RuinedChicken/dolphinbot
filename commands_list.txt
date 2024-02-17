@@ -1,4 +1,7 @@
-!addquote - Adds a new quote. Usage: !addquote "quote text" - Author
+!play - Will attempt to join your vc and play a sound clip. Can keep on playing until you tell it to go w !leave
 !dolphin_help - Provides help. Hopefully.
 !grozdan - Гроздан.
+!leave - What do you _think_ it does.
+!addquote - Adds a new quote. Usage: !addquote quote text - Author
+!cliplist - Lists all available sound clips.
 !quote - Displays a quote. Usage: !quote number for specific quote, !quote r for random quote.
