@@ -1,21 +1,32 @@
 """What do you think bot.py does, pylint?!"""
 
+# bot.py
+import asyncio
+import logging
 import discord
 from discord.ext import commands
-from bot_commands import setup_commands
 from private import TOKEN
 
 
-intents = discord.Intents.default()
-intents.message_content = True  # Enable message content intent
-bot = commands.Bot(command_prefix='!', intents=intents)
-bot.remove_command('help')
+async def main():
+    intents = discord.Intents.default()
+    intents.message_content = True
+    bot = commands.Bot(command_prefix='!', intents=intents)
 
-@bot.event
-async def on_ready():
-    print(f'Logged in as {bot.user.name}')
-    print('------')
+    @bot.event
+    async def on_ready():
+        print(f'Logged in as {bot.user.name}')
+        print('------')
 
-setup_commands(bot)
+    # logging.basicConfig(level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(name)s: %(message)s')
 
-bot.run(TOKEN)
+    # Load cogs
+    await bot.load_extension("ImagePostingCog")
+    await bot.load_extension("QuoteCog")
+    await bot.load_extension("SoundboardCog")
+    await bot.load_extension("UtilsCog")
+
+    await bot.start(TOKEN)
+
+if __name__ == "__main__":
+    asyncio.run(main())
