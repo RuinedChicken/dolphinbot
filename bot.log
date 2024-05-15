@@ -1,1 +1,25 @@
 2024-05-15 17:56:27,796 - INFO - logging in using static token
+2024-05-15 17:56:28,803 - INFO - Shard ID None has connected to Gateway (Session ID: e158c3a1100aee37576a43239ca35fb4).
+2024-05-15 17:58:17,009 - ERROR - Ignoring exception in command quote
+Traceback (most recent call last):
+  File "C:\Users\RuinedChicken\AppData\Local\Programs\Python\Python310\lib\site-packages\discord\ext\commands\bot.py", line 1350, in invoke
+    await ctx.command.invoke(ctx)
+  File "C:\Users\RuinedChicken\AppData\Local\Programs\Python\Python310\lib\site-packages\discord\ext\commands\core.py", line 1015, in invoke
+    await self.prepare(ctx)
+  File "C:\Users\RuinedChicken\AppData\Local\Programs\Python\Python310\lib\site-packages\discord\ext\commands\core.py", line 932, in prepare
+    await self._parse_arguments(ctx)
+  File "C:\Users\RuinedChicken\AppData\Local\Programs\Python\Python310\lib\site-packages\discord\ext\commands\core.py", line 839, in _parse_arguments
+    transformed = await self.transform(ctx, param, attachments)
+  File "C:\Users\RuinedChicken\AppData\Local\Programs\Python\Python310\lib\site-packages\discord\ext\commands\core.py", line 691, in transform
+    raise MissingRequiredArgument(param)
+discord.ext.commands.errors.MissingRequiredArgument: arg is a required argument that is missing.
+2024-05-15 17:58:51,144 - INFO - Connecting to voice...
+2024-05-15 17:58:51,144 - INFO - Starting voice handshake... (connection attempt 1)
+2024-05-15 17:58:51,379 - INFO - Voice handshake complete. Endpoint found rotterdam2332.discord.media
+2024-05-15 17:58:58,158 - INFO - ffmpeg process 7884 successfully terminated with return code of 0.
+2024-05-15 17:59:12,371 - INFO - ffmpeg process 2712 successfully terminated with return code of 0.
+2024-05-15 17:59:17,803 - INFO - The voice handshake is being terminated for Channel ID 725501295309357100 (Guild ID 718158252038422601)
+2024-05-15 17:59:17,803 - INFO - Disconnecting from voice normally, close code 1000.
+2024-05-15 18:24:57,020 - INFO - logging in using static token
+2024-05-15 18:24:57,999 - INFO - Shard ID None has connected to Gateway (Session ID: e4060131419ec5e6cd258f339422c85b).
+2024-05-15 18:33:51,176 - INFO - Shard ID None has successfully RESUMED session e4060131419ec5e6cd258f339422c85b.
