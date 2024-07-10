@@ -10,3 +10,4 @@
 !play - Will attempt to join your vc and play a sound clip. Can keep on playing until you tell it to go w !leave
 !quotelist - Displays a list of all available quote IDs and missing quote IDs.
 !grozdan - Гроздан.
+!add_score - Adds a score to the CHIMPS scores leaderboard

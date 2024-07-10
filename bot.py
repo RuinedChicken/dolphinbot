@@ -25,6 +25,7 @@ async def main():
     await bot.load_extension("QuoteCog")
     await bot.load_extension("SoundboardCog")
     await bot.load_extension("UtilsCog")
+    await bot.load_extension("ChimpsLeaderboardCog")
 
     await bot.start(TOKEN)
 
