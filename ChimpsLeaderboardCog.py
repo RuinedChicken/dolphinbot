@@ -9,10 +9,11 @@ class ChimpsScoring(commands.Cog, name="Chimps scoring"):
     def __init__(self, bot):
         self.bot = bot
 
+
     @commands.command(name='add_score')
-    async def add_score(self, ctx, player, map, round):
+    async def add_score(self, ctx, map, round):
         """
-        Usage: !add_score playerName map round 
+        Usage: !add_score map round 
         """
         try:
             with open('chimps_scores.json', 'r', encoding="utf-8") as file:
@@ -20,10 +21,10 @@ class ChimpsScoring(commands.Cog, name="Chimps scoring"):
                 text = ""
                 scoresList = scores.get("scores", "putamierda")
                 data =  {}
-                data["user"]= player
+                data["user"]= str(ctx.author.id)
                 data["map"]= map
                 data["round"]= round
-                data["message"] = "test"
+                data["message"] =str(ctx.message.id)
                 scoresList.append(data) 
                 scores["scores"] = scoresList
                 with open('chimps_scores.json', 'w', encoding='utf-8') as file:
