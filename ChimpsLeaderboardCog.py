@@ -9,13 +9,14 @@ class AddScore(commands.Cog, name="Add score"):
         self.bot = bot
 
     @commands.command(name='add_score')
-    async def post_image(self, ctx):
+    async def add_score(self, ctx):
         """
         Usage: !add_score map round_number. Also, send a screenshot in the same message 
         """
         try:
-            with open(image_path, 'rb') as img:
-                await ctx.send(file=discord.File(img))
+            with open('chimps_scores.json', 'r', encoding="utf-8") as file:
+                scores = json.load(file)
+                scores_ids = sorted([score["id"] for score in scores])
         except FileNotFoundError:
             await ctx.send("No Гроздан. Blame Pollo.")
 
