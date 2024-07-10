@@ -1,0 +1,22 @@
+{
+    "scores": [
+        {
+            "user": "bola",
+            "map": "polla",
+            "message": "test",
+            "round": "1234"
+        },
+        {
+            "user": "asoijudbasd",
+            "map": "asdoiunasdoas",
+            "round": "123",
+            "message": "test"
+        },
+        {
+            "user": "asoijudbasd",
+            "map": "asdoiunasdoas",
+            "round": "12783612",
+            "message": "test"
+        }
+    ]
+}

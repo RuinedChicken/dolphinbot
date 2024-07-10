@@ -1,13 +1,14 @@
-!help - Shows this message
-!leave - What do you _think_ it does.
 !e - Usage: !e file_name (no extension)
 [Laughs in no nitro].
-!cliplist - Lists all available sound clips.
-!quote - Displays a quote. Usage: !quote number for specific quote, !quote r for random quote.
-!addquote - Adds a new quote. Usage: !addquote quote text - Author
 !dolphin_help - Provides help. Hopefully.
-!list_emotes - Lists all available emote images.
-!play - Will attempt to join your vc and play a sound clip. Can keep on playing until you tell it to go w !leave
-!quotelist - Displays a list of all available quote IDs and missing quote IDs.
 !grozdan - Гроздан.
-!add_score - Adds a score to the CHIMPS scores leaderboard
+!list_emotes - Lists all available emote images.
+!quote - Displays a quote. Usage: !quote number for specific quote, !quote r for random quote.
+!cliplist - Lists all available sound clips.
+!see_scores - Lists all scores in the Chimps database
+!add_score - Adds a new score to the Chimps database
+!leave - What do you _think_ it does.
+!quotelist - Displays a list of all available quote IDs and missing quote IDs.
+!help - Shows this message
+!play - Will attempt to join your vc and play a sound clip. Can keep on playing until you tell it to go w !leave
+!addquote - Adds a new quote. Usage: !addquote quote text - Author
